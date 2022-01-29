@@ -1,14 +1,13 @@
 package biscuitFactory;
 
-// This is supposed to be a Singleton - but it isn't set up like one!!!
-// It uses static variables, instead of referring to instance variables
+// CHECK should we use static methods on a Singleton?
 
 public class BiscuitProduction {
 
     private static BiscuitProduction instance = null;
-    private static int biscuitSize;
-    private static int productionSpeed;
-    private static int chocolateChipAmount;
+    private int biscuitSize;
+    private int productionSpeed;
+    private int chocolateChipAmount;
 
     private BiscuitProduction() {
 
@@ -22,26 +21,26 @@ public class BiscuitProduction {
     }
 
     public static int getBiscuitSize() {
-        return biscuitSize;
+        return getInstance().biscuitSize;
     }
 
     public static void setBiscuitSize(int biscuitSize) {
-        BiscuitProduction.biscuitSize = biscuitSize;
+        BiscuitProduction.getInstance().biscuitSize = biscuitSize;
     }
 
     public static int getProductionSpeed() {
-        return productionSpeed;
+        return BiscuitProduction.getInstance().productionSpeed;
     }
 
     public static void setProductionSpeed(int productionSpeed) {
-        BiscuitProduction.productionSpeed = productionSpeed;
+        BiscuitProduction.getInstance().productionSpeed = productionSpeed;
     }
 
     public static int getChocolateChipAmount() {
-        return chocolateChipAmount;
+        return BiscuitProduction.getInstance().chocolateChipAmount;
     }
 
     public static void setChocolateChipAmount(int chocolateChipAmount) {
-        BiscuitProduction.chocolateChipAmount = chocolateChipAmount;
+        BiscuitProduction.getInstance().chocolateChipAmount = chocolateChipAmount;
     }
 }
