@@ -1,59 +1,68 @@
 package MobilePhoneState;
 
 // Define the interface as a base
-interface EnemyRobotState
+interface MobilePhoneState
 {
-    public void action(EnemyRobot robot);
+    void incomingCall(MobilePhone mobilePhone);
 }
 
 // The Patrolling, Recharging, and Chasing classes implement EnemyRobotState
 // This gives the classes access to the action method, which they will override
 // with their own custom code and behaviour
-class Patrolling implements EnemyRobotState
+class SoundOnly implements MobilePhoneState
 {
     @Override
-    public void action(EnemyRobot robot)
+    public void incomingCall(MobilePhone mobilePhone)
     {
-        System.out.println("Searching for intruders...");
+        System.out.println("Beep...");
     }
 }
 
-class Recharging implements EnemyRobotState
+class Silent implements MobilePhoneState
 {
     @Override
-    public void action(EnemyRobot robot)
+    public void incomingCall(MobilePhone mobilePhone)
     {
-        System.out.println("Recharging...");
+        System.out.println("Silent...");
     }
 }
 
-class Chasing implements EnemyRobotState
+class VibrateOnly implements MobilePhoneState
 {
     @Override
-    public void action(EnemyRobot robot)
+    public void incomingCall(MobilePhone mobilePhone)
     {
-        System.out.println("Intruder detected! Pursuing!");
+        System.out.println("Vibrate only...");
     }
 }
 
-// Our EnemyRobot class
-class EnemyRobot
+class SoundAndVibrate implements MobilePhoneState
 {
-    private EnemyRobotState currentState;	// The current state
+    @Override
+    public void incomingCall(MobilePhone mobilePhone)
+    {
+        System.out.println("Sound and Vibrate...");
+    }
+}
 
-    public EnemyRobot(EnemyRobotState initialState)
+// Our MobilePhone class
+class MobilePhone
+{
+    private MobilePhoneState currentState;	// The current state
+
+    public MobilePhone(MobilePhoneState initialState)
     {
         currentState = initialState;		// Constructor setting initial state
     }
 
-    public void setState(EnemyRobotState state)
+    public void setState(MobilePhoneState state)
     {
         currentState = state;
     }
 
     public void action() 					// Perform the unique action of the state
     {
-        currentState.action(this);
+        currentState.incomingCall(this);
     }
 }
 
@@ -62,16 +71,19 @@ class State
     public static void main(String[] args)
     {
         // Create the state
-        EnemyRobot robot = new EnemyRobot(new Recharging());
-        robot.action();
+        MobilePhone mobilePhone = new MobilePhone(new Silent());
+        mobilePhone.action();
         // Switch to patrol mode
-        robot.setState(new Patrolling());
-        robot.action();
+        mobilePhone.setState(new SoundOnly());
+        mobilePhone.action();
         // Intruder found! Switch to chase mode!
-        robot.setState(new Chasing());
-        robot.action();
+        mobilePhone.setState(new VibrateOnly());
+        mobilePhone.action();
         // Running out of energy...need to recharge...
-        robot.setState(new Recharging());
-        robot.action();
+        mobilePhone.setState(new Silent());
+        mobilePhone.action();
+
+        mobilePhone.setState(new SoundAndVibrate());
+        mobilePhone.action();
     }
 }
